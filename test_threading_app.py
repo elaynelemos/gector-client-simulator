@@ -1,14 +1,13 @@
-from flask import Flask
 from datetime import datetime
+from time import sleep
 
-app = Flask(__name__)
+def lambda_handler(event, context):
+    sleep(2)
 
-@app.route('/correct')
-def correct_sentence():
     return {
-        'msg': 'OK!',
-        'datetime': datetime.now()
+        'statusCode': 200,
+        'body': {
+            'msg': 'OK!',
+            'datetime': datetime.now().isoformat()
+        }
     }
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
