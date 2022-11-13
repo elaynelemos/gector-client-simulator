@@ -28,7 +28,7 @@ if __name__ == '__main__':
         print('\n######### NEW_BATCH #########')
         print('Running for:', len(sentence_list),'(sentences)\n')
         with concurrent.futures.ThreadPoolExecutor(MAX_THREADS) as executor:
-            futures = [ executor.submit(send_api_request(s)) for s in sentence_list ]
+            executor.map(send_api_request, sentence_list)
 
         time.sleep(5)
 
