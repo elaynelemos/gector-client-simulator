@@ -12,7 +12,7 @@ MAX_THREADS = 1024
 
 def send_api_request(sentence):
     r = requests.get(ENDPOINT, data={'sentence': sentence})
-    print('Received:', datetime.datetime.now(), r.content)
+    print(f'Received ({datetime.now()}): {r.content}')
 
 
 if __name__ == '__main__':
