@@ -1,7 +1,7 @@
 #!/usr/bin/python3.8
 import time
 import requests
-import datetime
+from datetime import datetime
 import concurrent.futures
 import sys
 
@@ -16,7 +16,7 @@ def send_api_request(sentence):
 
 
 if __name__ == '__main__':
-    print ('Starting:', datetime.datetime.now())
+    print ('Starting:', datetime.now())
 
     for i in range(11):
         n_sentences = 2**i
@@ -32,4 +32,4 @@ if __name__ == '__main__':
 
         time.sleep(5)
 
-    print('\nEnd time:', datetime.datetime.now())
+    print('\nEnd time:', datetime.now())
