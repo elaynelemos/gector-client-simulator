@@ -9,9 +9,10 @@ API_URL = f'{sys.argv[1]}'
 REQUEST_ROUTE = '/correct'
 ENDPOINT = API_URL + REQUEST_ROUTE
 MAX_THREADS = 1024
+HEADERS = {'Content-Type': 'application/json'}
 
 def send_api_request(sentence):
-    r = requests.get(ENDPOINT, data={'sentence': sentence})
+    r = requests.post(ENDPOINT, headers=HEADERS, data=f'{"sentence": "{sentence}"}')
     print(f'Received ({datetime.now()}): {r.content}')
 
 
@@ -30,6 +31,6 @@ if __name__ == '__main__':
         with concurrent.futures.ThreadPoolExecutor(MAX_THREADS) as executor:
             executor.map(send_api_request, sentence_list)
 
-        time.sleep(5)
+        time.sleep(15)
 
     print('\nEnd time:', datetime.now())
