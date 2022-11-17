@@ -12,9 +12,8 @@ MAX_THREADS = 1024
 HEADERS = {'Content-Type': 'application/json'}
 
 def send_api_request(sentence):
-    r = requests.post(ENDPOINT, headers=HEADERS, data=f'{"sentence": "{sentence}"}')
-    print(f'Received ({datetime.now()}): {r.content}')
-
+    r = requests.post(ENDPOINT, headers=HEADERS, data='{"sentence": '+ f'"{sentence}"' + '}')
+    print(f'Received ({datetime.now()}): {r.text}')
 
 if __name__ == '__main__':
     print ('Starting:', datetime.now())
@@ -31,6 +30,6 @@ if __name__ == '__main__':
         with concurrent.futures.ThreadPoolExecutor(MAX_THREADS) as executor:
             executor.map(send_api_request, sentence_list)
 
-        time.sleep(15)
+        time.sleep(10)
 
     print('\nEnd time:', datetime.now())
