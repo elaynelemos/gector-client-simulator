@@ -30,6 +30,6 @@ if __name__ == '__main__':
         with concurrent.futures.ThreadPoolExecutor(MAX_THREADS) as executor:
             executor.map(send_api_request, sentence_list)
 
-        time.sleep(10)
+        time.sleep(5)
 
     print('\nEnd time:', datetime.now())
