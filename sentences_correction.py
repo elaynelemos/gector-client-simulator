@@ -13,7 +13,7 @@ MAX_THREADS = 1024
 HEADERS = {'Content-Type': 'application/json'}
 
 logging.basicConfig(
-    filename=f'client-simulation-{datetime.timestamp(datetime.now())}.log',
+    filename=f'client-simulation-iter_{sys.argv[2]}-{datetime.timestamp(datetime.now())}.log',
     format='%(asctime)s - %(levelname)s - %(message)s',
     filemode='w',
     level = logging.INFO
@@ -39,7 +39,7 @@ if __name__ == '__main__':
         with open(input_path, 'r', encoding='utf-8') as f:
             sentence_list = f.read().splitlines()
 
-        log.info('========================= New load ==========================')
+        log.info('\n========================= New load ==========================')
         log.info(f'Running for: {len(sentence_list)} sentences\n')
         with concurrent.futures.ThreadPoolExecutor(MAX_THREADS) as executor:
             executor.map(send_api_request, sentence_list)
