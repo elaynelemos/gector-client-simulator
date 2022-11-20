@@ -14,6 +14,9 @@ HEADERS = {'Content-Type': 'application/json'}
 
 
 def send_api_request(sentence):
+    global ENDPOINT
+    global HEADERS
+
     print(f'Sent ({datetime.now()}): {sentence}')
     r = requests.post(ENDPOINT, headers=HEADERS, data='{"sentence": '+ f'"{sentence}"' + '}')
     print(f'Received ({datetime.now()}): {r.text}')
