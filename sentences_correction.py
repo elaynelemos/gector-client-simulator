@@ -4,6 +4,7 @@ import requests
 from datetime import datetime
 import concurrent.futures
 import sys
+import logging
 
 API_URL = f'{sys.argv[1]}'
 REQUEST_ROUTE = '/correct'
@@ -11,7 +12,9 @@ ENDPOINT = API_URL + REQUEST_ROUTE
 MAX_THREADS = 1024
 HEADERS = {'Content-Type': 'application/json'}
 
+
 def send_api_request(sentence):
+    print(f'Sent ({datetime.now()}): {sentence}')
     r = requests.post(ENDPOINT, headers=HEADERS, data='{"sentence": '+ f'"{sentence}"' + '}')
     print(f'Received ({datetime.now()}): {r.text}')
 
@@ -26,7 +29,7 @@ if __name__ == '__main__':
             sentence_list = f.read().splitlines()
 
         print('\n######### NEW_BATCH #########')
-        print('Running for:', len(sentence_list),'(sentences)\n')
+        print(f'Running for: {len(sentence_list)} sentences ({datetime.now()})\n')
         with concurrent.futures.ThreadPoolExecutor(MAX_THREADS) as executor:
             executor.map(send_api_request, sentence_list)
 
