@@ -12,17 +12,25 @@ ENDPOINT = API_URL + REQUEST_ROUTE
 MAX_THREADS = 1024
 HEADERS = {'Content-Type': 'application/json'}
 
+logging.basicConfig(
+    filename=f'client-simulation-{datetime.timestamp(datetime.now())}.log',
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filemode='w',
+    level = logging.INFO
+)
+
+log = logging.getLogger()
 
 def send_api_request(sentence):
     global ENDPOINT
     global HEADERS
 
-    print(f'Sent ({datetime.now()}): {sentence}')
+    log.info(f'[SENT] {sentence}')
     r = requests.post(ENDPOINT, headers=HEADERS, data='{"sentence": '+ f'"{sentence}"' + '}')
-    print(f'Received ({datetime.now()}): {r.text}')
+    log.info(f'[RECEIVED] {r.text}')
 
 if __name__ == '__main__':
-    print ('Starting:', datetime.now())
+    log.info('============== Starting GECToR load simulation! ==============')
 
     for i in range(11):
         n_sentences = 2**i
@@ -31,11 +39,11 @@ if __name__ == '__main__':
         with open(input_path, 'r', encoding='utf-8') as f:
             sentence_list = f.read().splitlines()
 
-        print('\n######### NEW_BATCH #########')
-        print(f'Running for: {len(sentence_list)} sentences ({datetime.now()})\n')
+        log.info('========================= New load ==========================')
+        log.info(f'Running for: {len(sentence_list)} sentences\n')
         with concurrent.futures.ThreadPoolExecutor(MAX_THREADS) as executor:
             executor.map(send_api_request, sentence_list)
 
         time.sleep(5)
 
-    print('\nEnd time:', datetime.now())
+    log.info('=============== Ending GECToR load simulation! ===============')
