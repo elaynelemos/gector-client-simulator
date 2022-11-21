@@ -14,7 +14,7 @@ MAX_THREADS = 1024
 HEADERS = {'Content-Type': 'application/json'}
 
 logging.basicConfig(
-    filename=f'client-simulation-iter_{sys.argv[2]}-{datetime.timestamp(datetime.now())}.log',
+    filename=f'client-simulation-iter_{sys.argv[2]}-{int(datetime.now().timestamp())}.log',
     format='%(asctime)s - %(levelname)s - %(message)s',
     filemode='w',
     level = logging.INFO
