@@ -32,6 +32,7 @@ def send_api_request(sentence, id):
 
 if __name__ == '__main__':
     log.info('============== Starting GECToR load simulation! ==============')
+    init_time = datetime.now()
 
     for i in range(11):
         n_sentences = 2**i
@@ -49,4 +50,7 @@ if __name__ == '__main__':
 
         time.sleep(5)
 
+    end_time = datetime.now()
+
     log.info('=============== Ending GECToR load simulation! ===============')
+    log.info(f'Simulation duration: {end_time - init_time}')
