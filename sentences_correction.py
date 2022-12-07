@@ -13,7 +13,7 @@ REQUEST_ROUTE = '/correct'
 ENDPOINT = API_URL + REQUEST_ROUTE
 MAX_THREADS = 1024
 HEADERS = {'Content-Type': 'application/json'}
-df = pd.DataFrame(columns=['sent_time','sent', 'received_time', 'received'])
+df = pd.DataFrame(columns=['sent', 'received', 'received_time', 'latency', 'status_code'])
 
 logging.basicConfig(
     filename=f'client-simulation-iter_{sys.argv[2]}-{int(datetime.now().timestamp())}.log',
@@ -29,11 +29,9 @@ def send_api_request(sentence):
     global HEADERS
     global df
 
-    sent_time = datetime.now().timestamp()
     r = requests.post(ENDPOINT, headers=HEADERS, data='{"sentence": '+ f'"{sentence}"' + '}')
 
-    received_time = datetime.now().timestamp()
-    df = df.append(dict(zip(df.columns,[sent_time, sentence, received_time, r.text])))
+    df = df.append(dict(zip(df.columns,[sentence, r.text, datetime.now().timestamp(), r.elapsed, r.status_code])))
 
 if __name__ == '__main__':
     log.info('============== Starting GECToR load simulation! ==============')
@@ -53,7 +51,7 @@ if __name__ == '__main__':
         with concurrent.futures.ThreadPoolExecutor(MAX_THREADS) as executor:
             executor.map(send_api_request, sentence_list)
 
-
+        df.to_csv(f'client-simulation-iter_{sys.argv[2]}-{n_sentences}.csv')
         time.sleep(5)
 
     end_time = datetime.now()
