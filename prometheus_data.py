@@ -41,6 +41,10 @@ if __name__ == '__main__':
         '--metric_title',
         help='Name metric to table.',
         required=True)
+    parser.add_argument(
+        '--iteration_number',
+        help='Number for csv purpose.',
+        required=True)
 
 
     args = parser.parse_args()
@@ -54,4 +58,4 @@ if __name__ == '__main__':
     print(data)
 
     df = pd.DataFrame(data, columns=['timestamp', args.metric_title])
-    df.to_csv(f'{args.metric_title}-{args.start}-{args.end}.csv', index=False)
+    df.to_csv(f'{args.metric_title}-iteration_{args.iteration_number}.csv', index=False)
