@@ -4,7 +4,6 @@ from datetime import datetime
 import concurrent.futures
 import sys
 import logging
-from uuid import uuid4
 import pandas as pd
 
 API_URL = f'{sys.argv[1]}'
@@ -35,7 +34,7 @@ if __name__ == '__main__':
     log.info('======= Starting GECToR load simulation! =======')
     init_time = datetime.now()
 
-    for i in range(11):
+    for i in range(10):
         results = []
         n_sentences = 2**i
 
