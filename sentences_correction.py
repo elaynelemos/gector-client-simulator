@@ -27,7 +27,10 @@ def send_api_request(sentence):
     global HEADERS
     global DF_COLUMNS
 
-    r = requests.post(ENDPOINT, headers=HEADERS, data='{"sentence": '+ f'"{sentence}"' + '}')
+    try:
+        r = requests.post(ENDPOINT, headers=HEADERS, data='{"sentence": '+ f'"{sentence}"' + '}')
+    except:
+        return dict(zip(DF_COLUMNS, [sentence, '', int(datetime.now().timestamp()), 60, 504]))
     return dict(zip(DF_COLUMNS, [sentence, r.text, int(datetime.now().timestamp()), r.elapsed.total_seconds(), r.status_code]))
 
 if __name__ == '__main__':
@@ -44,12 +47,7 @@ if __name__ == '__main__':
 
         log.info(f'Running for: {len(sentence_list)} sentences\n')
         with concurrent.futures.ThreadPoolExecutor(MAX_THREADS) as executor:
-            for result in executor.map(send_api_request, sentence_list):
-                try:
-                    results.append(result)
-                except Exception as ex:
-                    print(str(ex))
-                    pass
+            results = executor.map(send_api_request, sentence_list)
 
         df = pd.DataFrame(results, columns=DF_COLUMNS)
         df.to_csv(f'client-simulation-iter_{sys.argv[2]}-{n_sentences}.csv', index=False)
