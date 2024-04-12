@@ -9,7 +9,7 @@ import pandas as pd
 API_URL = f'{sys.argv[1]}'
 REQUEST_ROUTE = '/correct'
 ENDPOINT = API_URL + REQUEST_ROUTE
-MAX_THREADS = 1024
+MAX_THREADS = 512
 HEADERS = {'Content-Type': 'application/json'}
 DF_COLUMNS = ['sent', 'received', 'received_time', 'latency', 'status_code']
 
@@ -50,7 +50,10 @@ if __name__ == '__main__':
             results = executor.map(send_api_request, sentence_list)
 
         df = pd.DataFrame(results, columns=DF_COLUMNS)
-        df.to_csv(f'client-simulation-iter_{sys.argv[2]}-{n_sentences}.csv', index=False)
+        df['sent'] = df['sent'].str.replace('\n', '\\n', regex=True)
+        df['received'] = df['received'].str.replace('\n', '\\n', regex=True)
+
+        df.to_csv(f'client-simulation-iter_{sys.argv[2]}-{n_sentences}.csv', index=False, sep="#")
 
         time.sleep(5)
 
