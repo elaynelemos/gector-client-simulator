@@ -41,6 +41,8 @@ def send_api_request(sentence):
         r = requests.post(ENDPOINT, headers=HEADERS, data='{"sentence": '+ f'"{sentence}"' + '}')
     except:
         return dict(zip(DF_COLUMNS, [sentence, '', int(datetime.now().timestamp()), 60, 504]))
+    if r.status_code == 504:
+        return dict(zip(DF_COLUMNS, [sentence, '', int(datetime.now().timestamp()), r.elapsed.total_seconds(), r.status_code]))
     return dict(zip(DF_COLUMNS, [sentence, r.text, int(datetime.now().timestamp()), r.elapsed.total_seconds(), r.status_code]))
 
 if __name__ == '__main__':
