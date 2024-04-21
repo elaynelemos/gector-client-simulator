@@ -4,13 +4,13 @@
 cd gector-client-simulator
 source .venv/bin/activate
 
-python3 sentences_correction.py http://34.148.44.205 1 outputs/c3-highcpu-4
+python3 sentences_correction.py http://34.73.53.229 1 outputs/c3-highcpu-8
 
-QUERY_MEMORY='(1 - ((avg_over_time(node_memory_MemFree_bytes{job="c3-highcpu-4"}[30s]) + avg_over_time(node_memory_Cached_bytes{ job="c3-highcpu-4"}[30s]) + avg_over_time( node_memory_Buffers_bytes{job="c3-highcpu-4"}[30s])) / avg_over_time(node_memory_MemTotal_bytes{job="c3-highcpu-4"} [30s])))'
+QUERY_MEMORY='(1 - ((avg_over_time(node_memory_MemFree_bytes{job="c3-highcpu-8"}[30s]) + avg_over_time(node_memory_Cached_bytes{ job="c3-highcpu-8"}[30s]) + avg_over_time( node_memory_Buffers_bytes{job="c3-highcpu-8"}[30s])) / avg_over_time(node_memory_MemTotal_bytes{job="c3-highcpu-8"} [30s])))'
 
-QUERY_CPU='(avg without (mode,cpu) (1 - rate(node_cpu_seconds_total{mode="idle", job="c3-highcpu-4"}[30s])))'
+QUERY_CPU='(avg without (mode,cpu) (1 - rate(node_cpu_seconds_total{mode="idle", job="c3-highcpu-8"}[30s])))'
 
-PROMETHEUS_IP='172.214.182.73'
+PROMETHEUS_IP='52.237.133.255'
 START_TIMESTAMP='1713625685'
 END_TIMESTAMP='1713625879'
 ITERATION_ID='10'
